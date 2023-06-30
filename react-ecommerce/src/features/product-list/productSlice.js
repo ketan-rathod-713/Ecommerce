@@ -1,50 +1,123 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchCount } from './productAPI';
+import { fetchAllProducts, fetchBrands, fetchCategories, fetchCount, fetchProductsByFilter, getProductById } from './productAPI';
 
 const initialState = {
-  value: 0,
+  products: [],
   status: 'idle',
+  totalItems : 0,
+  categories: [],
+  brands: [],
+  currentProduct: {}
 };
 
-export const incrementAsync = createAsyncThunk(
-  'counter/fetchCount',
-  async (amount) => {
-    const response = await fetchCount(amount);
+export const fetchAllProductsAsync = createAsyncThunk(
+  'product/fetchAllProducts',
+  async () => {
+    const response = await fetchAllProducts();
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
 );
 
-export const counterSlice = createSlice({
-  name: 'counter',
+export const fetchProductsByFilterAsync = createAsyncThunk(
+  'product/fetchProductsByFilter',
+  async ({filter, sort, pagination}) => {
+    const response = await fetchProductsByFilter({filter, sort, pagination});
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const fetchBrandsAsync = createAsyncThunk(
+  'product/fetchBrands',
+  async () => {
+    const response = await fetchBrands();
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const fetchCategoriesAsync = createAsyncThunk(
+  'product/fetchCategories',
+  async () => {
+    const response = await fetchCategories();
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const getProductByIdAsync = createAsyncThunk(
+  'product/getProductById',
+  async (id) => {
+    const response = await getProductById(id);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const productSlice = createSlice({
+  name: 'product',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     increment: (state) => {
       state.value += 1;
     },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
-    },
   },
  
   extraReducers: (builder) => {
     builder
-      .addCase(incrementAsync.pending, (state) => {
+      .addCase(fetchAllProductsAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(incrementAsync.fulfilled, (state, action) => {
+      .addCase(fetchAllProductsAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.value += action.payload;
-      });
+        state.products = action.payload;
+        // console.log(action);
+        
+      })
+      .addCase(fetchProductsByFilterAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchProductsByFilterAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.products = action.payload.products;
+        state.totalItems = action.payload.totalItems;
+        // console.log(action);
+      })
+      .addCase(fetchBrandsAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchBrandsAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.brands = action.payload;
+      })
+      .addCase(fetchCategoriesAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchCategoriesAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.categories = action.payload;
+      })
+      .addCase(getProductByIdAsync.pending, (state) => {  // todo
+        state.status = 'loading';
+      })
+      .addCase(getProductByIdAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        console.log("get producct by id");
+        
+        state.currentProduct = action.payload;
+      })
   },
 });
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export const { increment } = productSlice.actions;
 
-export const selectCount = (state) => state.counter.value;
+export const selectAllProducts = (state) => state.product.products;
+export const selectAllBrands = (state) => state.product.brands;
+export const selectAllCategories = (state) => state.product.categories;
+export const selectCurrentProduct = (state) => state.product.currentProduct;
 
-export default counterSlice.reducer;
+export const selectTotalItems = (state) => state.product.totalItems;
+
+export default productSlice.reducer;
