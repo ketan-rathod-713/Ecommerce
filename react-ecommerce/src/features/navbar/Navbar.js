@@ -3,6 +3,8 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectItems } from "../cart/cartSlice";
 
 const user = {
   name: 'Tom Cook',
@@ -15,8 +17,8 @@ const navigation = [
   { name: 'Team', href: '#', current: false },
 ]
 const userNavigation = [
-  { name: 'Your Profile', link: '#' },
-  { name: 'Settings', link: '#' },
+  { name: 'Your Profile', link: '/' },
+  { name: 'Settings', link: '/' },
   { name: 'Sign out', link: '/login' },
 ]
 
@@ -25,6 +27,10 @@ function classNames(...classes) {
 }
 
 const Navbar = ({children}) => {
+  // cart items
+  const items = useSelector(selectItems);
+  console.log(items);
+  
   return <>
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
@@ -72,9 +78,9 @@ const Navbar = ({children}) => {
                         <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
                       </button>
                       </Link>
-                      <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 mb-5 -ml-3">
-                        4
-                    </span>
+                      {items.length > 0 && <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 mb-5 -ml-3">
+                        {items?.length}
+                    </span>}
 
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
@@ -162,9 +168,9 @@ const Navbar = ({children}) => {
                       <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
                     </Link>
-                    <span className="mb-7 -ml-5 inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                    10
-                    </span>
+                   {items.length > 0 && <span className="mb-7 -ml-5 inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                    {items?.length}
+                    </span>}
                   </div>
                   <div className="mt-3 space-y-1 px-2">
                     {userNavigation.map((item) => (

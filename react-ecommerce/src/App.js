@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
@@ -13,11 +13,15 @@ import CartPage from './pages/CartPage';
 import Checkout from './pages/Checkout';
 import ProductDetailPage from './pages/ProductDetailPage';
 import Protected from './features/auth/components/Protected';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchItemsByUserId } from './features/cart/cartAPI';
+import { fetchItemsByUserIdAsync } from './features/cart/cartSlice';
+import { selectUser } from './features/auth/authSlice';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home></Home>
+    element:<Protected> <Home></Home></Protected>
   },
   {
     path: "/login",
@@ -37,11 +41,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/product-detail/:id",
-    element: <ProductDetailPage></ProductDetailPage>,
+    element: <Protected><ProductDetailPage></ProductDetailPage></Protected>,
   },
 ]);
 
 function App() {
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+
+  useEffect(()=>{
+    if(user){
+      dispatch(fetchItemsByUserIdAsync(user.id))
+    }
+  }, [dispatch, user?.id])
+
   return (
     <div className="App">
      {/* <Counter/> */}
