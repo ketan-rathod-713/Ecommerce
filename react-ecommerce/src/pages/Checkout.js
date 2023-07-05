@@ -1,12 +1,11 @@
-import React, {useState} from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import React, {useEffect, useState} from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { deleteItemFromCartAsync, selectItems, updateCartAsync } from "../features/cart/cartSlice";
 import { useForm } from "react-hook-form";
-import { selectUser, updateUserAsync } from "../features/auth/authSlice";
+import { selectUserInfo } from "../features/user/userSlice";
+import { updateUserAsync } from "../features/user/userSlice";
 import { createOrderAsync, selectCurrentOrder} from "../features/order/orderSlice";
 // import {
 //   increment,
@@ -18,7 +17,7 @@ import { createOrderAsync, selectCurrentOrder} from "../features/order/orderSlic
 
 const Checkout = () => {
   const [open, setOpen] = useState(true);
-  const user = useSelector(selectUser);
+  const user = useSelector(selectUserInfo);
   const [selectedAddress, setSelectedAddress] = useState(null)
   const [paymentMethod, setPaymentMethod] = useState("cash")
   const items = useSelector(selectItems);
@@ -36,8 +35,8 @@ const Checkout = () => {
     dispatch(deleteItemFromCartAsync(id))
   }
 
-  const handleAddress = (address)=>{
-    setSelectedAddress(address)
+  const handleAddress = (index)=>{
+    setSelectedAddress(user.addresses[index])
   }
 
   const handlePayment = (payment)=>{
@@ -45,6 +44,12 @@ const Checkout = () => {
   }
 
   const handleOrder = (e)=>{
+    if(!selectedAddress){
+      alert("Select One Address Or Add New One")
+      return;
+      
+    }
+
     const order = {
       items,
       totalAmount,
@@ -212,13 +217,13 @@ const Checkout = () => {
         <li key={address.index} className="flex justify-between gap-x-6 py-5 px-7">
           <div className="flex gap-x-4">
           <input  
-                    onChange={(e) =>handleAddress(address)}
+                    onChange={(e) =>handleAddress(index)}
                     name="address"
                     type="radio"
                     value={index}
                     className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                   />
-            <div className="min-w-0 flex-auto">
+            <div className="min-w-0 flex-auto text-left">
               <p className="text-sm font-semibold leading-6 text-gray-900">{address.name}</p>
               <p className="mt-1 truncate text-xs leading-5 text-gray-500">{address.street}</p>
               <p className="mt-1 truncate text-xs leading-5 text-gray-500">{address.pinCode}</p>
