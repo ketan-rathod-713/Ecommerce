@@ -468,13 +468,17 @@ const products = [
         }
     ];
 
-const brands = products.map(product => product.brand);
+// const brands = products.map(product => product.brand);
 
-const finalCategories = [...new Set([...brands])];
+// const finalCategories = [...new Set([...brands])];
 
-console.log(finalCategories);
+// console.log(finalCategories);
 
-const fn = finalCategories.map(c =>({value: c, lablel: c.split("-").join(" "), checked: false}))
+// const fn = finalCategories.map(c =>({value: c, lablel: c.split("-").join(" "), checked: false}))
 
-console.log(fn);
+// console.log(fn);
+
+
+    
+
 
