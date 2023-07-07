@@ -39,3 +39,13 @@ export function checkUser(loginInfo) {
   );
 }
 
+export function logoutUser() {
+  return new Promise(async (resolve) =>{
+    // do something on server like deleting all stuff and all
+    setTimeout(() => {
+    resolve({data: "success"});
+    }, 1000);
+    // TODO : on server it will only return some info of user
+  }
+  );
+}
