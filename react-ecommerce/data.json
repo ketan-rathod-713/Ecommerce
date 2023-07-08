@@ -2,22 +2,22 @@
   "products": [
     {
       "id": 1,
-      "title": "iPhone 9",
+      "title": "iPhone 10",
       "description": "An apple mobile which is nothing like apple",
       "price": 549,
       "discountPercentage": 12.96,
       "rating": 4.69,
       "stock": 94,
-      "brand": "Apple",
+      "brand": "apple",
       "category": "smartphones",
       "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/1/1.jpg",
         "https://i.dummyjson.com/data/products/1/2.jpg",
         "https://i.dummyjson.com/data/products/1/3.jpg",
-        "https://i.dummyjson.com/data/products/1/4.jpg",
         "https://i.dummyjson.com/data/products/1/thumbnail.jpg"
-      ]
+      ],
+      "deleted": true
     },
     {
       "id": 2,
@@ -27,7 +27,7 @@
       "discountPercentage": 17.94,
       "rating": 4.44,
       "stock": 34,
-      "brand": "Apple",
+      "brand": "apple",
       "category": "smartphones",
       "thumbnail": "https://i.dummyjson.com/data/products/2/thumbnail.jpg",
       "images": [
@@ -44,12 +44,15 @@
       "price": 1249,
       "discountPercentage": 15.46,
       "rating": 4.09,
-      "stock": 36,
+      "stock": "10",
       "brand": "Samsung",
       "category": "smartphones",
       "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
       "images": [
-        "https://i.dummyjson.com/data/products/3/1.jpg"
+        "https://i.dummyjson.com/data/products/3/1.jpg",
+        "1",
+        "1",
+        "https://i.dummyjson.com/data/products/3/thumbnail.jpg"
       ]
     },
     {
@@ -551,6 +554,57 @@
         "https://i.dummyjson.com/data/products/30/3.jpg",
         "https://i.dummyjson.com/data/products/30/thumbnail.jpg"
       ]
+    },
+    {
+      "title": "Macbook air 2023",
+      "description": "This is description",
+      "brand": "apple",
+      "category": "smartphones",
+      "price": "1000",
+      "discountPercentage": "12",
+      "stock": "12",
+      "thumbnail": "123",
+      "images": [
+        "asdf",
+        "sdfv",
+        "sdvs",
+        "123"
+      ],
+      "id": 31
+    },
+    {
+      "title": "adsags",
+      "description": "dfga",
+      "brand": "Oppo",
+      "category": "smartphones",
+      "price": "12",
+      "discountPercentage": "23",
+      "stock": "12",
+      "thumbnail": "ear",
+      "images": [
+        "sdfg",
+        "afg",
+        "agfa",
+        "ear"
+      ],
+      "id": 32
+    },
+    {
+      "title": "adsags",
+      "description": "dfga",
+      "brand": "Oppo",
+      "category": "smartphones",
+      "price": "12",
+      "discountPercentage": "23",
+      "stock": "12",
+      "thumbnail": "ear",
+      "images": [
+        "sdfg",
+        "afg",
+        "agfa",
+        "ear"
+      ],
+      "id": 33
     }
   ],
   "brands": [
@@ -660,6 +714,7 @@
   "users": [
     {
       "email": "ketanrtd1@gmail.com",
+      "role": "user",
       "password": "123",
       "addresses": [
         {
@@ -687,7 +742,25 @@
       "email": "tejpratapp468@gmail.com",
       "password": "123",
       "addresses": [],
-      "id": 3
+      "id": 3,
+      "role": "user"
+    },
+    {
+      "email": "admin@gmail.com",
+      "password": "123",
+      "addresses": [
+        {
+          "name": "Home Address",
+          "email": "ketanrtd1@gmail.com",
+          "phone": "9725488060",
+          "street": "1erfw",
+          "city": "surat",
+          "state": "gujarat",
+          "pinCode": "394325"
+        }
+      ],
+      "role": "admin",
+      "id": 4
     }
   ],
   "cart": [
@@ -708,9 +781,49 @@
         "https://i.dummyjson.com/data/products/1/4.jpg",
         "https://i.dummyjson.com/data/products/1/thumbnail.jpg"
       ],
-      "quantity": 1,
+      "quantity": "2",
       "user": 1,
       "id": 1
+    },
+    {
+      "title": "iPhone 9",
+      "description": "An apple mobile which is nothing like apple",
+      "price": 549,
+      "discountPercentage": 12.96,
+      "rating": 4.69,
+      "stock": 94,
+      "brand": "Apple",
+      "category": "smartphones",
+      "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+      "images": [
+        "https://i.dummyjson.com/data/products/1/1.jpg",
+        "https://i.dummyjson.com/data/products/1/2.jpg",
+        "https://i.dummyjson.com/data/products/1/3.jpg",
+        "https://i.dummyjson.com/data/products/1/4.jpg",
+        "https://i.dummyjson.com/data/products/1/thumbnail.jpg"
+      ],
+      "quantity": 1,
+      "user": 4,
+      "id": 2
+    },
+    {
+      "title": "Macbook air 2023",
+      "description": "This is description",
+      "brand": "apple",
+      "category": "smartphones",
+      "price": "1000",
+      "discountPercentage": "12",
+      "stock": "12",
+      "thumbnail": "123",
+      "images": [
+        "asdf",
+        "sdfv",
+        "sdvs",
+        "123"
+      ],
+      "quantity": 1,
+      "user": 4,
+      "id": 3
     }
   ],
   "orders": [

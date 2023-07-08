@@ -14,3 +14,17 @@ export function createOrder(order) {
   }
   );
 }
+
+export function fetchAllOrders(pagination) {
+
+  const queryString = "";
+
+  return new Promise(async (resolve) =>{
+    const response = await fetch('http://localhost:8080/orders?'+ queryString);
+
+    const data = await response.json();
+    const totalOrders = await response.headers.get("X-Total-Count")
+    resolve({data : {products: data, totalOrders: +totalOrders}});
+  }
+  );
+}

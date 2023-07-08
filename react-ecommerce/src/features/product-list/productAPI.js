@@ -94,3 +94,32 @@ export function getProductById(id) {
   }
   );
 }
+
+export function createProduct(product) {
+  return new Promise(async (resolve) =>{
+    const response = await fetch('http://localhost:8080/products/', {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(product)
+    });
+
+    const data = await response.json();
+    // TODO : on server it will only return some info of user
+    resolve({data});
+  }
+  );
+}
+
+export function updateProduct(update) {
+  return new Promise(async (resolve) => {
+    const response = await fetch('http://localhost:8080/products/' + update.id, {
+      method: 'PATCH',
+      body: JSON.stringify(update),
+      headers: { 'content-type': 'application/json' },
+    });
+    const data = await response.json();
+    resolve({ data });
+  });
+}

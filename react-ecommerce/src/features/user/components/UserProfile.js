@@ -256,6 +256,7 @@ const UserProfile = () => {
           <h3 className="text-2xl text-left font-bold tracking-tight text-gray-900 mb-10 mt-5 text-red-500">
             Email Address : {user.email}
           </h3>
+          <p className="text-left"> For Debugging : role : {user.role}</p>
         </div>
 
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
