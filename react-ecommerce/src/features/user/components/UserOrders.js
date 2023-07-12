@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchLoggedInUserOrders } from "../userAPI";
 import { selectUserInfo } from "../userSlice";
 import { fetchLoggedInUserOrdersAsync, selectUserOrders } from "../userSlice";
+import { discountedPrice } from "../../../app/constants";
 
 const UserOrders = () => {
     const dispatch = useDispatch();
@@ -14,6 +15,22 @@ const UserOrders = () => {
         dispatch(fetchLoggedInUserOrdersAsync(user.id))
     }, [])
 
+    const chooseColor = (status)=>{
+      switch(status){
+        case 'pending': 
+          return 'bg-purple-200 text-purple-600';
+        case "dispatched": 
+          return 'bg-green-200 text-green-600';
+        case "delivered": 
+          return 'bg-yellow-200 text-yellow-600';
+        case "cancelled": 
+          return 'bg-red-200 text-red-600';
+
+        default: 
+        return ''
+      }
+    }
+
   return <div>
     {
         orders.map((order)=>
@@ -24,7 +41,7 @@ const UserOrders = () => {
           <h1 className="text-3xl text-left font-bold tracking-tight text-gray-900 mb-10 mt-5">
             Order #{order.id}
           </h1>
-          <h3 className="text-2xl text-left font-bold tracking-tight text-gray-900 mb-10 mt-5 text-red-500">
+          <h3 className={`${chooseColor(order.status)} text-2xl text-left font-bold tracking-tight text-gray-900 mb-10 mt-5 text-red-500`}>
             Order Status : {order.status}
           </h3>
           <div className="flow-root">
@@ -45,7 +62,7 @@ const UserOrders = () => {
                         <h3>
                           <a href={item.href}>{item.title}</a>
                         </h3>
-                        <p className="ml-4">{item.price}</p>
+                        <p className="ml-4">{discountedPrice(item)}</p>
                       </div>
                       <p className="text-left mt-1 text-sm text-gray-500">
                         {item.brand}

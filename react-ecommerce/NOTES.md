@@ -105,3 +105,13 @@ else create new product not editing
 
  
 
+6-34
+pagination add to admin orders page
+copy logic of previous one home page try self.
+
+selectOrders ka ek selector
+totalorders ka ek selector
+just like that of products
+
+show all orders on admin orders
+

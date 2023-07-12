@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProductByIdAsync, selectCurrentProduct } from '../productSlice';
 import { selectUser } from '../../auth/authSlice';
 import { addToCartAsync } from '../../cart/cartSlice';
+import { discountedPrice } from '../../../app/constants';
 
 // TODO: add this colors, sizes constants to server
 const colors =  [
@@ -150,6 +151,7 @@ export default function ProductDetail() {
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h2 className="sr-only">Product information</h2>
             <p className="text-3xl tracking-tight text-gray-900">{product?.price}</p>
+            <p className="text-3xl tracking-tight text-gray-900"> With {product.discountPercentage}% Off : {discountedPrice(product)}</p>
 
             {/* Reviews */}
             <div className="mt-6">

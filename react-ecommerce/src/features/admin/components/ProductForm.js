@@ -34,83 +34,99 @@
 //   },
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useSelector } from "react-redux";
-import { clearSelectedProduct, createProductAsync, getProductByIdAsync, selectAllBrands, selectAllCategories, selectCurrentProduct, updateProductAsync } from "../../product-list/productSlice";
-import {useForm} from "react-hook-form";
-import { useDispatch } from 'react-redux';
+import {
+  clearSelectedProduct,
+  createProductAsync,
+  getProductByIdAsync,
+  selectAllBrands,
+  selectAllCategories,
+  selectCurrentProduct,
+  updateProductAsync,
+} from "../../product-list/productSlice";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 export default function ProductForm() {
-    const brands = useSelector(selectAllBrands)
-    const categories = useSelector(selectAllCategories)
-    const dispatch = useDispatch();
-    const params = useParams()
+  const brands = useSelector(selectAllBrands);
+  const categories = useSelector(selectAllCategories);
+  const dispatch = useDispatch();
+  const params = useParams();
 
-    const {
-        register,
-        reset,
-        handleSubmit,
-        watch,
-        setValue,
-        formState: { errors },
-      } = useForm();
-      
-      const selectedProduct = useSelector(selectCurrentProduct);
+  const {
+    register,
+    reset,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
-      useEffect(()=>{
-        if(params.id)
-        dispatch(getProductByIdAsync(params.id))
-      }, [params.id, dispatch])
+  const selectedProduct = useSelector(selectCurrentProduct);
 
-      useEffect(()=>{
-        console.log("this is running")
-        if(selectedProduct && params.id){
-            setValue('title', selectedProduct.title)
-            setValue('description', selectedProduct.description)
-            setValue('price', +selectedProduct.price)
-            // setValue('rating', selectedProduct.rating)
-            setValue('discountPercentage', selectedProduct.discountPercentage)
-            setValue('image1', selectedProduct.images[0])
-            setValue('image2', selectedProduct.images[1])
-            setValue('image3', selectedProduct.images[2])
-            setValue('thumbnail', selectedProduct.thumbnail)
-            setValue('stock', +selectedProduct.stock)
-            setValue('brand', selectedProduct.brand)
-            setValue('category', selectedProduct.category)
-        }
-      },[selectedProduct, setValue])
+  useEffect(() => {
+    if (params.id) {
+      dispatch(getProductByIdAsync(params.id));
+    } else {
+      dispatch(clearSelectedProduct());
+    }
+  }, [params.id, dispatch]);
 
-      const handleDelete = ()=>{
-        const product = {...selectedProduct};
-        product.deleted = true;
-        dispatch(updateProductAsync(product))
-      }
+  useEffect(() => {
+    console.log("this is running");
+    if (selectedProduct && params.id) {
+      setValue("title", selectedProduct.title);
+      setValue("description", selectedProduct.description);
+      setValue("price", +selectedProduct.price);
+      // setValue('rating', selectedProduct.rating)
+      setValue("discountPercentage", selectedProduct.discountPercentage);
+      setValue("image1", selectedProduct.images[0]);
+      setValue("image2", selectedProduct.images[1]);
+      setValue("image3", selectedProduct.images[2]);
+      setValue("thumbnail", selectedProduct.thumbnail);
+      setValue("stock", +selectedProduct.stock);
+      setValue("brand", selectedProduct.brand);
+      setValue("category", selectedProduct.category);
+    }
+  }, [selectedProduct, setValue, params.id]);
+
+  const handleDelete = () => {
+    const product = { ...selectedProduct };
+    product.deleted = true;
+    dispatch(updateProductAsync(product));
+  };
   return (
-    <form className="p-12 bg-white" onSubmit={handleSubmit((data)=>{
+    <form
+      className="p-12 bg-white"
+      onSubmit={handleSubmit((data) => {
         // console.log(data)
-        const product = {...data};
-        product.images = [product.image1, product.image2, product.image3, product.thumbnail];
-        delete product["image1"]
-        delete product["image2"]
-        delete product["image3"]
-        
+        const product = { ...data };
+        product.images = [
+          product.image1,
+          product.image2,
+          product.image3,
+          product.thumbnail,
+        ];
+        delete product["image1"];
+        delete product["image2"];
+        delete product["image3"];
 
-        
-        console.log(product)
-        if(params.id){
-            // update the product
-            product.rating = selectedProduct.rating || 0
-            product.id = params.id; // it is required for updating the product
-            dispatch(updateProductAsync(product))
-            console.log('saved')
-            reset()
+        console.log(product);
+        if (params.id) {
+          // update the product
+          product.rating = selectedProduct.rating || 0;
+          product.id = params.id; // it is required for updating the product
+          dispatch(updateProductAsync(product));
+          console.log("saved");
+          reset();
         } else {
-            dispatch(clearSelectedProduct())
-            dispatch(createProductAsync(product))
-            reset()
+          dispatch(clearSelectedProduct());
+          dispatch(createProductAsync(product));
+          reset();
         }
-
-    })}>
+      })}
+    >
       <div className="space-y-12">
         <div className="text-left border-b border-gray-900/10 pb-12">
           <h2 className="text-3xl font-semibold leading-7 text-gray-900">
@@ -154,8 +170,8 @@ export default function ProductForm() {
                   id="description"
                   name="description"
                   {...register("description", {
-                      required: "description is required",
-                    })}
+                    required: "description is required",
+                  })}
                   rows={3}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   defaultValue={""}
@@ -171,15 +187,15 @@ export default function ProductForm() {
                 Brand
               </label>
               <div className="mt-2">
-                <select  {...register("brand", {
-                      required: "name is required",
-                    })}>
-                <option value={""}>--Choose Brand--</option>
-                    {
-                        brands.map((brand)=>(
-                            <option value={brand.value}>{brand.label}</option>
-                        ))
-                    }
+                <select
+                  {...register("brand", {
+                    required: "name is required",
+                  })}
+                >
+                  <option value={""}>--Choose Brand--</option>
+                  {brands.map((brand) => (
+                    <option value={brand.value}>{brand.label}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -192,15 +208,15 @@ export default function ProductForm() {
                 Category
               </label>
               <div className="mt-2">
-              <select  {...register("category", {
-                      required: "name is required",
-                    })}>
-              <option value={""}>--Choose Category--</option>
-                    {
-                        categories.map((category)=>(
-                            <option value={category.value}>{category.label}</option>
-                        ))
-                    }
+                <select
+                  {...register("category", {
+                    required: "name is required",
+                  })}
+                >
+                  <option value={""}>--Choose Category--</option>
+                  {categories.map((category) => (
+                    <option value={category.value}>{category.label}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -243,7 +259,7 @@ export default function ProductForm() {
                     {...register("discountPercentage", {
                       required: "discount is required",
                       min: 0,
-                      max: 100
+                      max: 100,
                     })}
                     id="discount"
                     autoComplete="discount"
@@ -276,7 +292,7 @@ export default function ProductForm() {
                 </div>
               </div>
             </div>
-            
+
             <div className="col-span-full">
               <label
                 htmlFor="thumbnail"
@@ -310,7 +326,7 @@ export default function ProductForm() {
               <div className="mt-2">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                   <input
-                  {...register("image1", {
+                    {...register("image1", {
                       required: "image1 is required",
                     })}
                     type="text"
@@ -333,7 +349,7 @@ export default function ProductForm() {
               <div className="mt-2">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                   <input
-                  {...register("image2", {
+                    {...register("image2", {
                       required: "image2 is required",
                     })}
                     type="text"
@@ -369,7 +385,6 @@ export default function ProductForm() {
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
@@ -381,14 +396,14 @@ export default function ProductForm() {
         >
           Cancel
         </button>
-        {
-            selectedProduct && <button
-          onClick={handleDelete}
-          className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Delete
-        </button>
-        }
+        {selectedProduct && (
+          <button
+            onClick={handleDelete}
+            className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Delete
+          </button>
+        )}
         <button
           type="submit"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
