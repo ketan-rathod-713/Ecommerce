@@ -1,7 +1,7 @@
 // A mock function to mimic making an async request for data
 export function createUser(userData) {
   return new Promise(async (resolve) =>{
-    const response = await fetch('http://localhost:8080/users', {
+    const response = await fetch('http://localhost:8080/auth/signup', {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -20,21 +20,27 @@ export function checkUser(loginInfo) {
   return new Promise(async (resolve, reject) =>{
     const email = loginInfo.email;
     const password = loginInfo.password;
-    const response = await fetch('http://localhost:8080/users?email='+email);
+
+    const response = await fetch('http://localhost:8080/auth/login', {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({email, password})
+    });
 
     const data = await response.json();
+
+    if(data.email){
+      resolve({data})
+    } else {
+      alert("Enter Valid Credentials")
+      reject({data})
+    }
     console.log(data);
     
-    if(data.length){
-      if(password === data[0].password)
-      resolve({data: data[0]})
-      else 
-      reject({message: "Wrong credentials"})
-    } else {
-      reject({message: "user not found"})
-    }
     // TODO : on server it will only return some info of user
-    resolve({data});
+    // resolve({data});
   }
   );
 }

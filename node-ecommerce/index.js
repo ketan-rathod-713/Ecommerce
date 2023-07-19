@@ -5,8 +5,13 @@ const app = express();
 const productRouters = require("./routes/Products");
 const categoriesRouter = require("./routes/Category");
 const brandsRouter = require("./routes/Brand");
+const usersRouter = require("./routes/User");
+const authRouter = require("./routes/Auth");
+const cartRouter = require("./routes/Cart");
+var morgan = require('morgan')
 
 // middlewares
+morgan(':method :url :status :res[content-length] - :response-time ms')
 app.use(cors({
     exposedHeaders: ["X-Total-Count"]
 }))
@@ -14,6 +19,9 @@ app.use(express.json())
 app.use("/products", productRouters.router)
 app.use("/brands", brandsRouter.router)
 app.use("/categories", categoriesRouter.router)
+app.use("/users", usersRouter.router)
+app.use("/auth", authRouter.router)
+app.use("/cart", cartRouter.router)
 
 main().catch(err => console.log(err));
 
